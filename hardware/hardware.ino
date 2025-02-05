@@ -299,6 +299,12 @@ double convert_fahrenheit_to_Celsius(double f){
 }
 
 double calcHeatIndex(double Temp, double Humid){;
+  return -42.379 + 
+               (-2.04901523 * Temp) + (-10.14333127 * Humid) + 
+               (-0.22475541 * Temp * Humid) + 
+               (-0.00683783 * Temp * Temp) + (-0.05481717 * Humid * Humid) + 
+               (-0.00122874 * Temp * Temp * Humid) + (0.00085282 * Temp * Humid * Humid) + 
+               (-0.00000199 * Temp * Temp * Humid * Humid);
     // CALCULATE AND RETURN HEAT INDEX USING EQUATION FOUND AT https://byjus.com/heat-index-formula/#:~:text=The%20heat%20index%20formula%20is,an%20implied%20humidity%20of%2020%25
   
 }
