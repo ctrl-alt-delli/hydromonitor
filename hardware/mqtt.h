@@ -92,7 +92,7 @@ void MQTT_ConnectFunction( void ) {
   xReturned = xTaskCreatePinnedToCore(
                 MQTT_Connect,     /* Function that implements the task. */
                 "MQTT CONNECT",    /* Text name for the task. */
-                2048,                     /* Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) */
+                8192,                     /* Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) */
                 ( void * ) 1,             /* Parameter passed into the task. */
                 8,                        /* Priority at which the task is created. */
                 &xMQTT_Connect,    /* Used to pass out the created task's handle. */
@@ -128,7 +128,7 @@ void vLOOPFunction( void ) {
     xReturned = xTaskCreatePinnedToCore(
                     vLOOP,               // Function that implements the task. 
                     "vLOOP",    // Text name for the task. 
-                    8096,               // Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) 
+                    8192,               // Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) 
                     ( void * ) 1,       // Parameter passed into the task. 
                     15,                  // Priority at which the task is created. 
                     &xLOOPHandle,        // Used to pass out the created task's handle. 
@@ -180,7 +180,7 @@ void checkHEAP(const char* Name){
 
 
 void initialize(void){
-  vNTPFunction();     // INIT NTP PROTOCOL FOR TIME KEEPING   
+    // INIT NTP PROTOCOL FOR TIME KEEPING   
 
   //CONNECT TO WIFI
   Serial.printf("Connecting to %s \n", ssid);
@@ -194,6 +194,7 @@ void initialize(void){
   Serial.println("\n\n***** Wi-Fi CONNECTED! *****\n\n");
    
   initMQTT();          // INIT MQTT  
+  vNTPFunction(); 
   vUpdateFunction();
    
 }
@@ -245,7 +246,7 @@ void vButtonCheckFunction( void ) {
     xReturned = xTaskCreatePinnedToCore(
                     vButtonCheck,               // Function that implements the task. 
                     "vButtonCheck",    // Text name for the task. 
-                    4096,               // Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) 
+                    8192,               // Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) 
                     ( void * ) 1,       // Parameter passed into the task. 
                     3,                  // Priority at which the task is created. 
                     &xButtonCheckeHandle,        // Used to pass out the created task's handle. 
@@ -269,7 +270,7 @@ void vUpdateFunction( void ) {
     xReturned = xTaskCreatePinnedToCore(
                     vUpdate,               // Function that implements the task. 
                     "vUpdate",    // Text name for the task. 
-                    4096,               // Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) 
+                    8192,               // Stack size (Bytes in ESP32, words in Vanilla FreeRTOS) 
                     ( void * ) 1,       // Parameter passed into the task. 
                     6,                  // Priority at which the task is created. 
                     &xUpdateHandle,        // Used to pass out the created task's handle. 
