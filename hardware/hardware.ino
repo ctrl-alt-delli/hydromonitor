@@ -160,6 +160,15 @@ void vUpdate( void * pvParameters )  {
            
           // 2. Read temperature as Celsius   and save in variable below
           double t = dht.readTemperature();    
+
+          Serial.print(F("Humidity: "));
+          Serial.print(h);
+          Serial.print(F("% Temperature: "));
+          Serial.print(t);
+          Serial.print(F("°C "));
+          Serial.print(F("Heat Index: "));
+          Serial.print(calcHeatIndex(convert_Celsius_to_fahrenheit(t),h));
+          Serial.print(F("°F\r\n "));
  
 
           if(isNumber(t)){
@@ -172,7 +181,7 @@ void vUpdate( void * pvParameters )  {
           doc["timestamp"]  = getTimeStamp();
           doc["humidity"]  = h;
           doc["temperature"]  = t;
-          doc["heat index"]  = convert_fahrenheit_to_Celsius(calcHeatIndex(convert_Celsius_to_fahrenheit(t),h));
+          doc["heat index"]  = calcHeatIndex(convert_Celsius_to_fahrenheit(t),h);
 
           serializeJson(doc, message);  // Seralize / Covert JSon object to JSon string and store in char* array
 
@@ -289,21 +298,21 @@ bool publish(const char *topic, const char *payload){
 //***** Complete the util functions below ******
 
 double convert_Celsius_to_fahrenheit(double c){    
-  return (c*9/5)+32;
+  return (c*(9/5))+32;
     // CONVERTS INPUT FROM °C TO °F. RETURN RESULTS     
 }
 
 double convert_fahrenheit_to_Celsius(double f){    
-  return (f-32)*5/9;
+  return (f-32)*(5/9);
     // CONVERTS INPUT FROM °F TO °C. RETURN RESULT    
 }
 
 double calcHeatIndex(double Temp, double Humid){;
   return -42.379 + 
-               (-2.04901523 * Temp) + (-10.14333127 * Humid) + 
+               (2.04901523 * Temp) + (10.14333127 * Humid) + 
                (-0.22475541 * Temp * Humid) + 
                (-0.00683783 * Temp * Temp) + (-0.05481717 * Humid * Humid) + 
-               (-0.00122874 * Temp * Temp * Humid) + (0.00085282 * Temp * Humid * Humid) + 
+               (0.00122874 * Temp * Temp * Humid) + (0.00085282 * Temp * Humid * Humid) + 
                (-0.00000199 * Temp * Temp * Humid * Humid);
     // CALCULATE AND RETURN HEAT INDEX USING EQUATION FOUND AT https://byjus.com/heat-index-formula/#:~:text=The%20heat%20index%20formula%20is,an%20implied%20humidity%20of%2020%25
   
