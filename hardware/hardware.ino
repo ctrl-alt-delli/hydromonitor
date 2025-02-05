@@ -42,7 +42,7 @@
 #define ARDUINOJSON_USE_DOUBLE      1 
 
 #define DHTTYPE DHT22
-#define DHTPIN 35
+#define DHTPIN 32
 
 #define NUM_LEDS 7
 #define DATA_PIN 26
@@ -61,8 +61,8 @@ static const char* mqtt_server   = "broker.emqx.io";         // Broker IP addres
 static uint16_t mqtt_port        = 1883;
 
 // WIFI CREDENTIALS
-const char* ssid       = "Digical_WiFi_eSEb";     // Add your Wi-Fi ssid
-const char* password   = "WYPx3kCk"; // Add your Wi-Fi password 
+const char* ssid       = "MonaConnect";     // Add your Wi-Fi ssid
+const char* password   = ""; // Add your Wi-Fi password 
 
 
 
@@ -252,7 +252,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     // 2. ITERATIVELY, TURN ON LED(s) BASED ON THE VALUE OF NODES. Ex IF NODES = 2, TURN ON 2 LED(s)
 
     for(int x=0; x<leds; x++){
-      ledArr[x] = CRGB( 0, 0, 255); // R, G, B range for each value is 0 to 255
+      ledArr[x] = CRGB( red, green, blue); // R, G, B range for each value is 0 to 255
       FastLED.setBrightness( brightness ); // Ranges from 0 to 255
       FastLED.show(); // Send changes to LED array
       delay(50);}
