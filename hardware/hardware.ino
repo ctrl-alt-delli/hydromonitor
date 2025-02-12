@@ -61,8 +61,8 @@ static const char* mqtt_server   = "broker.emqx.io";         // Broker IP addres
 static uint16_t mqtt_port        = 1883;
 
 // WIFI CREDENTIALS
-const char* ssid       = "Digicel_WiFi_eSEb";     // Add your Wi-Fi ssid
-const char* password   = "WYPx3kCk"; // Add your Wi-Fi password 
+const char* ssid       = "MonaConnect";     // Add your Wi-Fi ssid
+const char* password   = ""; // Add your Wi-Fi password 
 
 
 

@@ -40,28 +40,35 @@
             density="compact"
             rounded="lg"
           >
-            <v-card-item class="mb-n5">
-              <v-chip-group class="d-flex flex-row justify-center" color="primaryContainer" variant="flat">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">Min</v-chip>
-                  </template>
-                  <span class="pink-text">{{ temperature.min }}</span>
-                </v-tooltip>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">Range</v-chip>
-                  </template>
-                  <span class="pink-text">{{ temperature.range }}</span>
-                </v-tooltip>
-                <v-tooltip end>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">Max</v-chip>
-                  </template>
-                  <span class="pink-text">{{ temperature.max }}</span>
-                </v-tooltip>
-              </v-chip-group>
-            </v-card-item>
+          <v-card-item class="mb-n5">
+  <v-chip-group class="d-flex flex-row justify-center" color="primaryContainer" variant="flat">
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">
+          {{ temperature.min }}
+        </v-chip>
+      </template>
+      <span class="pink-text">Min</span>
+    </v-tooltip>
+    <v-tooltip top>
+      <template v-slot:activator="{ on, attrs }">
+        <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">
+          {{ temperature.range }}
+        </v-chip>
+      </template>
+      <span class="pink-text">Range</span>
+    </v-tooltip>
+    <v-tooltip end>
+      <template v-slot:activator="{ on, attrs }">
+        <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">
+          {{ temperature.max }}
+        </v-chip>
+      </template>
+      <span class="pink-text">Max</span>
+    </v-tooltip>
+  </v-chip-group>
+</v-card-item>
+
             <v-card-item class="text-center">
               <span class="text-h1 text-primary font-weight-bold pink-text">{{ temperature.avg }}</span>
             </v-card-item>
@@ -77,28 +84,35 @@
             density="compact"
             rounded="lg"
           >
-            <v-card-item class="mb-n5">
-              <v-chip-group class="d-flex flex-row justify-center" color="primaryContainer" variant="flat">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">Min</v-chip>
-                  </template>
-                  <span class="pink-text">{{ humidity.min }}</span>
-                </v-tooltip>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">Range</v-chip>
-                  </template>
-                  <span class="pink-text">{{ humidity.range }}</span>
-                </v-tooltip>
-                <v-tooltip end>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">Max</v-chip>
-                  </template>
-                  <span class="pink-text">{{ humidity.max }}</span>
-                </v-tooltip>
-              </v-chip-group>
-            </v-card-item>
+          <v-card-item class="mb-n5">
+  <v-chip-group class="d-flex flex-row justify-center" color="primaryContainer" variant="flat">
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">
+          {{ humidity.min }}
+        </v-chip>
+      </template>
+      <span class="pink-text">Min</span>
+    </v-tooltip>
+    <v-tooltip top>
+      <template v-slot:activator="{ on, attrs }">
+        <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">
+          {{ humidity.range }}
+        </v-chip>
+      </template>
+      <span class="pink-text">Range</span>
+    </v-tooltip>
+    <v-tooltip end>
+      <template v-slot:activator="{ on, attrs }">
+        <v-chip v-bind="attrs" v-on="on" style="background-color: #E18AAA;">
+          {{ humidity.max }}
+        </v-chip>
+      </template>
+      <span class="pink-text">Max</span>
+    </v-tooltip>
+  </v-chip-group>
+</v-card-item>
+
             <v-card-item class="text-center">
               <span class="text-h1 text-primary font-weight-bold pink-text">{{ humidity.avg }}</span>
             </v-card-item>
@@ -207,7 +221,9 @@ tempHiChart.value = Highcharts.chart('container', {
     },
 
     tooltip: { shared:true,
-        pointFormat: 'Humidity: {point.x}% <br/> Temperature: {point.y} °C'},
+        xDateFormat: '%Y-%m-%d %H:%M:%S',  // formats the x value as a date/time
+          headerFormat: '<b>{point.key}</b><br/>',
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} °C</b><br/>'},
 
     series: [
     {
@@ -241,7 +257,9 @@ humidHiChart.value = Highcharts.chart('container0', {
     },
 
     tooltip: { shared:true,
-    pointFormat: 'Humidity: {point.x}% <br/> Temperature: {point.y} °C'},
+        xDateFormat: '%Y-%m-%d %H:%M:%S',  // formats the x value as a date/time
+          headerFormat: '<b>{point.key}</b><br/>',
+          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} %</b><br/>'},
 
     series: [
     {
@@ -274,8 +292,20 @@ freqHiChart.value = Highcharts.chart('container1', {
     },
     
     tooltip: {
-        shared: true,
-        pointFormat: 'Humidity: {point.y}% <br/> Temperature: {point.temperature} °C <br/> Heat Index: {point.heatIndex} °C',
+        formatter: function () {
+        let unit = "";
+        
+        // Determine the unit based on series name
+        if (this.series.name.toLowerCase().includes("humidity")) {
+            unit = "%";
+        } else if (this.series.name.toLowerCase().includes("temperature") || this.series.name.toLowerCase().includes("heat index")) {
+            unit = "°C";
+        }
+
+        return `<b>Frequency:</b> ${this.y} Hz <br/>
+                <span style="color:${this.series.color}">${this.series.name}</span>: 
+                <b>${this.x} ${unit}</b>`;
+    }
     },
     series: [
         {
@@ -353,7 +383,7 @@ scattertempHiChart.value = Highcharts.chart('container2', {
             name: 'Analysis',
             type: 'scatter',
             data: [], // Data will be dynamically populated
-            color: '#FF5733', // Use a color to differentiate the points
+            color: '#E30B5C', // Use a color to differentiate the points
             marker: {
                 radius: 4, // Adjust point size
                 symbol: 'circle'
@@ -401,7 +431,7 @@ scatterhumidHiChart.value = Highcharts.chart('container3', {
             name: 'Analysis',
             type: 'scatter',
             data: [], // Data will be dynamically populated
-            color: '#FF5733', // Use a color to differentiate the points
+            color: '#E30B5C', // Use a color to differentiate the points
             marker: {
                 radius: 4, // Adjust point size
                 symbol: 'circle'
@@ -518,11 +548,14 @@ const updateCards = async () => {
         temperature.max = temp[0].max.toFixed(1);
         temperature.avg = temp[0].avg.toFixed(1);
         temperature.min = temp[0].min.toFixed(1);
+        temperature.range = temp[0].range.toFixed(1);
+
 
         // 4. Complete max, min, avg, and range for the humidity variable
-        humidity.max = temp[0].max.toFixed(1);
-        humidity.avg = temp[0].avg.toFixed(1);
-        humidity.min = temp[0].min.toFixed(1);
+        humidity.max = humid[0].max.toFixed(1);
+        humidity.avg = humid[0].avg.toFixed(1);
+        humidity.min = humid[0].min.toFixed(1);
+        humidity.range = humid[0].range.toFixed(1);
     }
 };
 
