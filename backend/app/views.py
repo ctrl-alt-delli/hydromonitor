@@ -30,8 +30,15 @@ def get_all(start,end):
     '''RETURNS ALL THE DATA FROM THE DATABASE THAT EXIST IN BETWEEN THE START AND END TIMESTAMPS'''
    
     if request.method == "GET":
-        '''Add your code here to complete this route'''
-
+        try:
+            Start = escape(start)
+            End = escape(end)
+            data = mongo.getAllInRange(Start,End)
+            if data:
+                return jsonify({"status":"found","data": data})
+            
+        except Exception as e:
+            print(f"getAllInRange error: f{str(e)}") 
     # FILE DATA NOT EXIST
     return jsonify({"status":"not found","data":[]})
    
@@ -42,8 +49,15 @@ def get_temperature_mmar(start,end):
     '''RETURNS MIN, MAX, AVG AND RANGE FOR TEMPERATURE. THAT FALLS WITHIN THE START AND END DATE RANGE'''
    
     if request.method == "GET": 
-        '''Add your code here to complete this route'''
-
+        try:
+            Start = escape(start)
+            End = escape(end)
+            data = mongo.temperatureMMAR(Start,End)
+            if data:
+                return jsonify({"status":"found","data": data})
+            
+        except Exception as e:
+            print(f"getAllInRange error: f{str(e)}") 
     # FILE DATA NOT EXIST
     return jsonify({"status":"not found","data":[]})
 
@@ -56,8 +70,15 @@ def get_humidity_mmar(start,end):
     '''RETURNS MIN, MAX, AVG AND RANGE FOR HUMIDITY. THAT FALLS WITHIN THE START AND END DATE RANGE'''
    
     if request.method == "GET": 
-        '''Add your code here to complete this route'''
-
+       try:
+            Start = escape(start)
+            End = escape(end)
+            data = mongo.humidityMMAR(Start,End)
+            if data:
+                return jsonify({"status":"found","data": data})
+            
+        except Exception as e:
+            print(f"getAllInRange error: f{str(e)}") 
     # FILE DATA NOT EXIST
     return jsonify({"status":"not found","data":[]})
 
@@ -70,7 +91,17 @@ def get_freq_distro(variable,start,end):
     '''RETURNS FREQUENCY DISTRIBUTION FOR SPECIFIED VARIABLE'''
    
     if request.method == "GET": 
-        '''Add your code here to complete this route'''         
+       try:
+            Start = escape(start)
+            End = escape(end)
+            Variable = escape(variable)
+            data = mongo.frequencyDistro(Variable,Start,End)
+            if data:
+                return jsonify({"status":"found","data": data})
+            
+        except Exception as e:
+            print(f"getAllInRange error: f{str(e)}") 
+        
 
     # FILE DATA NOT EXIST
     return jsonify({"status":"not found","data":[]})
@@ -82,7 +113,12 @@ def get_images(filename):
     '''RETURNS REQUESTED FILE FROM UPLOADS FOLDER'''
    
     if request.method == "GET":
-        '''Add your code here to complete this route'''
+        directory   = join( getcwd(), Config.UPLOADS_FOLDER) 
+        filePath    = join( getcwd(), Config.UPLOADS_FOLDER, filename) 
+
+        # RETURN FILE IF IT EXISTS IN FOLDER
+        if exists(filePath):        
+            return send_from_directory(directory, filename)
         
         # FILE DOES NOT EXIST
         return jsonify({"status":"file not found"}), 404
