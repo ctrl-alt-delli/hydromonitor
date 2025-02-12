@@ -31,9 +31,9 @@ def get_all(start,end):
    
     if request.method == "GET":
         try:
-            Start = escape(start)
-            End = escape(end)
-            data = mongo.getAllInRange(Start,End)
+            START = escape(start)
+            END = escape(end)
+            data = mongo.getAllInRange(START,END)
             if data:
                 return jsonify({"status":"found","data": data})
             
@@ -50,14 +50,16 @@ def get_temperature_mmar(start,end):
    
     if request.method == "GET": 
         try:
-            Start = escape(start)
-            End = escape(end)
-            data = mongo.temperatureMMAR(Start,End)
+            START = escape(start)
+            END = escape(end)
+            print(f"Fetching temperature data from {START} to {END}") 
+            data = mongo.temperatureMMAR(START,END)
+            print(f"Fetched data: {data}")
             if data:
                 return jsonify({"status":"found","data": data})
             
         except Exception as e:
-            print(f"getAllInRange error: f{str(e)}") 
+            print(f"temperatureMMAR error: f{str(e)}") 
     # FILE DATA NOT EXIST
     return jsonify({"status":"not found","data":[]})
 
@@ -65,22 +67,23 @@ def get_temperature_mmar(start,end):
 
 
 
-@app.route('/api/mmar/humidity/<start>/<end>', methods=['GET']) 
-def get_humidity_mmar(start,end):   
+@app.route('/api/mmar/humidity/<start>/<end>', methods=['GET'])
+def get_humidity_mmar(start, end):
     '''RETURNS MIN, MAX, AVG AND RANGE FOR HUMIDITY. THAT FALLS WITHIN THE START AND END DATE RANGE'''
-   
-    if request.method == "GET": 
-       try:
-            Start = escape(start)
-            End = escape(end)
-            data = mongo.humidityMMAR(Start,End)
+
+    if request.method == "GET":
+        try:
+            START = escape(start)
+            END = escape(end)
+            data = mongo.humidityMMAR(START, END)
             if data:
-                return jsonify({"status":"found","data": data})
-            
+                return jsonify({"status": "found", "data": data})
+
         except Exception as e:
-            print(f"getAllInRange error: f{str(e)}") 
+            print(f"humidityMMAR error: {str(e)}")
+
     # FILE DATA NOT EXIST
-    return jsonify({"status":"not found","data":[]})
+    return jsonify({"status": "not found", "data": []})
 
 
 
@@ -92,15 +95,14 @@ def get_freq_distro(variable,start,end):
    
     if request.method == "GET": 
        try:
-            Start = escape(start)
-            End = escape(end)
-            Variable = escape(variable)
-            data = mongo.frequencyDistro(Variable,Start,End)
+            START = escape(start)
+            END = escape(end)
+            VARIABLE = escape(variable)
+            data = mongo.frequencyDistro(VARIABLE,START,END)
             if data:
-                return jsonify({"status":"found","data": data})
-            
-        except Exception as e:
-            print(f"getAllInRange error: f{str(e)}") 
+                return jsonify({"status":"found","data": data})   
+       except Exception as e:
+            print(f"frequencyDistro error: f{str(e)}") 
         
 
     # FILE DATA NOT EXIST

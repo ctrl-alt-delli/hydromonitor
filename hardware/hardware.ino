@@ -61,8 +61,8 @@ static const char* mqtt_server   = "broker.emqx.io";         // Broker IP addres
 static uint16_t mqtt_port        = 1883;
 
 // WIFI CREDENTIALS
-const char* ssid       = "MonaConnect";     // Add your Wi-Fi ssid
-const char* password   = ""; // Add your Wi-Fi password 
+const char* ssid       = "Digicel_WiFi_eSEb";     // Add your Wi-Fi ssid
+const char* password   = "WYPx3kCk"; // Add your Wi-Fi password 
 
 
 
@@ -167,8 +167,8 @@ void vUpdate( void * pvParameters )  {
           Serial.print(t);
           Serial.print(F("°C "));
           Serial.print(F("Heat Index: "));
-          Serial.print(calcHeatIndex(convert_Celsius_to_fahrenheit(t),h));
-          Serial.print(F("°F\r\n "));
+          Serial.print(convert_fahrenheit_to_Celsius(calcHeatIndex(convert_Celsius_to_fahrenheit(t),h)));
+          Serial.print(F("°C\r\n "));
  
 
           if(isNumber(t)){
@@ -181,7 +181,7 @@ void vUpdate( void * pvParameters )  {
           doc["timestamp"]  = getTimeStamp();
           doc["humidity"]  = h;
           doc["temperature"]  = t;
-          doc["heat index"]  = calcHeatIndex(convert_Celsius_to_fahrenheit(t),h);
+          doc["heat index"]  = convert_fahrenheit_to_Celsius(calcHeatIndex(convert_Celsius_to_fahrenheit(t),h));
 
           serializeJson(doc, message);  // Seralize / Covert JSon object to JSon string and store in char* array
 
@@ -303,7 +303,7 @@ double convert_Celsius_to_fahrenheit(double c){
 }
 
 double convert_fahrenheit_to_Celsius(double f){    
-  return (f-32)*(5/9);
+  return (f-32)*0.56;
     // CONVERTS INPUT FROM °F TO °C. RETURN RESULT    
 }
 

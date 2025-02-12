@@ -70,7 +70,7 @@ class DB:
         '''RETURNS A LIST OF OBJECTS. THAT FALLS WITHIN THE START AND END DATE RANGE'''
         try:
             remotedb 	= self.remoteMongo('mongodb://%s:%s@%s:%s' % (self.username, self.password,self.server,self.port), tls=self.tls)
-            result      = list(remotedb.ELET2415.climo.find({"timestamp": {"$gte": int(start), "$lte": int(end)}},{"_id:0"}).sort("timestamp",1))
+            result      = list(remotedb.ELET2415.climo.find({"timestamp":{"$gte":int(start),"$lte":int(end)}}, {"_id":0}).sort("timestamp",1))
         except Exception as e:
             msg = str(e)
             print("getAllInRange error ",msg)            
@@ -82,7 +82,7 @@ class DB:
         '''RETURNS MIN, MAX, AVG AND RANGE FOR HUMIDITY. THAT FALLS WITHIN THE START AND END DATE RANGE'''
         try:
             remotedb 	= self.remoteMongo('mongodb://%s:%s@%s:%s' % (self.username, self.password,self.server,self.port), tls=self.tls)
-            result      = list(remotedb.ELET2415.climo.aggregate([{"$match": {"timestamp": {"$gte": int(start), "$lte": int(end)}}},{"$group": {"_id": None,"humidity": {"$push": "$$ROOT.humidity"}}},{"$project": {"_id": 0,"max": {"$max": "$humidity"},"min": {"$min": "$humidity"},"avg": {"$avg": "$humidity"},"range": {"$subtract": [{"$max": "$humidity"}, {"$min": "$humidity"}]}}}]))
+            result      = list(remotedb.ELET2415.climo.aggregate([{"$match": {"timestamp": {"$gte": int(start), "$lte": int(end)}}}, {"$group": {"_id": None, "humidity": {"$push": "$$ROOT.humidity"}}}, {"$project": {"_id": 0, "max": {"$max": "$humidity"}, "min": {"$min": "$humidity"},"avg": {"$avg": "$humidity"}, "range": {"$subtract": [{"$max": "$humidity"}, {"$min": "$humidity"}]}}}]))
         except Exception as e:
             msg = str(e)
             print("humidityMMAS error ",msg)            
@@ -97,7 +97,8 @@ class DB:
         except Exception as e:
             msg = str(e)
             print("temperatureMMAS error ",msg)            
-        else:                  
+        else:
+            print(f"Fetched data: {result}")        
             return result
 
 
@@ -105,7 +106,7 @@ class DB:
         '''RETURNS THE FREQUENCY DISTROBUTION FOR A SPECIFIED VARIABLE WITHIN THE START AND END DATE RANGE'''
         try:
             remotedb 	= self.remoteMongo('mongodb://%s:%s@%s:%s' % (self.username, self.password,self.server,self.port), tls=self.tls)
-            result      = list(remotedb.ELET2415.climo.aggregate([{"$match": {"timestamp": {"$gte": int(start), "$lte": int(end)}}},{"$bucket": {"groupBy": "$" + variable, "boundaries": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],"default": "outliers","output": {"count": {"$sum": 1}}}}]))
+            result      = list(remotedb.ELET2415.climo.aggregate([{"$match": {"timestamp": {"$gte": int(start), "$lte": int(end)}}}, {"$bucket": {"groupBy": "$" + variable, "boundaries": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100], "default": "outliers", "output": {"count": {"$sum": 1}}}}]))
         except Exception as e:
             msg = str(e)
             print("frequencyDistro error ",msg)            
